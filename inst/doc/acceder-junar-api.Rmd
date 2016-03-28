@@ -1,0 +1,96 @@
+---
+title: "Acceder Datos Abiertos del API de Junar"
+author: "Frans van Dunné"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Introducción
+
+El API de Junar es la base para varias iniciativas de Datos Abiertos en Latino
+América y los EEUU.  El paquete `junr` facilita el acceso a estos datos desde R.
+El objetivo es fomentar el uso de los datos disponibles haciendo el acceso lo
+mas fácil. Algunos ejemplos de implementaciones son: [el Portal de Datos
+Abiertos del Gobierno de Costa
+Rica](http://datosabiertos.presidencia.go.cr/home) y la [Ciudad
+de Córdoba (Argentina)](http://cdcordoba.opendata.junar.com/home/?lang=en)
+entre otros. Otros se pueden encontrar en el [sitio web de Junar](http://junar.com/).
+
+### Ejemplos de uso
+Como ejemplo vamos a usar los [datos de la casa presidencial de Costa
+Rica](http://datosabiertos.presidencia.go.cr/home). Lo primero es ir al sitio
+correspondiente para encontrar el URL base (`base_url`) y obtener un *API Key*
+para obtener acceso al API de Junar en [la página de Datos Abiertos Costa
+Rica](http://datosabiertos.presidencia.go.cr/developers/).
+
+```{r}
+library(junr)
+url_base <- "http://api.datosabiertos.presidencia.go.cr/api/v2/datastreams/"
+api_key <- "0bd55e858409eefabc629b28b2e7916361ef20ff" 
+```
+
+Miremos primero cuales datos hay disponibles en este URL.
+
+```{r, eval=FALSE}
+get_index(url_base, api_key)
+```
+
+No mostramos los resultados aquí porque el indice es la lista completa con todos
+los meta-datos incluidos como una hoja de datos (*data frame*) en R.
+
+Para tener solo una lista de los GUID la instrucción es:
+
+```{r}
+list_guid(url_base, api_key)
+```
+
+Y solo un listado de los títulos.
+
+```{r}
+list_titles(url_base, api_key)
+```
+
+Estas dos anteriores ayudan para tener una sobrevista rápida de los datos que
+hay disponibles.
+
+Obviamente, si conoces el GUID de interés lo puedes usar directamente para
+obtener los datos. Por ejemplo para los datos de la presidencia Costarricense:
+
+```{r}
+guid_datos <- "COMPR-PUBLI-DEL-MINIS"
+datos_compras <- get_data(url_base, api_key, guid_datos)
+```
+
+Con `View(datos_compras)` podrás comprobar que los datos han sido bajado desde
+la plataforma Junar y han sido convertidos a una hoja de datos (*data frame*)
+en R.
+
+### Determinar la cantidad de datos disponibles
+En las plataformas que corren en Junar se encuentran muchos datos que no son
+mas que tablas (datos ya trabajados y resumidos). Por eso es útil poder ver de
+una vez cuantos filas hay detrás de cada GUID en el URL disponible. 
+
+En `junr` lo puedes hacer rápidamente usando la función `get_dimensions` para
+obtener una tabla con todos los GUID y las dimensiones de los datos:
+
+```{r}
+get_dimensions(url_base, api_key)
+```
+
+### Limpiar valores de divisas
+Por lo menos en los datos ejemplo arriba, pero posiblemente en mas
+implementaciones de Junar, hay que limpiar todos los datos que corresponden a
+divisas. En nuestro caso hay que buscar todos los símbolos de la divisa (Colon
+Costarricense), y todas las comas ya que estas hacen que para R son valores de
+Texto y no números.
+
+Hay un para de utilidades para hacerlo `clean_currency` y `get_currency_symbol`.
+Por ejemplo:
+
+```{r}
+datos_con_divisas <- get_data(url_base, api_key, "LICIT-ADJUD-POR-LOS-MINIS")
+```
