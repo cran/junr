@@ -15,10 +15,9 @@ NULL
 get_index <- function(base_url, api_key){
   if (missing(base_url)) {
     warning("Please add a valid base URL")
-  }
-  if (missing(api_key)) {
+  } else if (missing(api_key)) {
     warning("Please add a valid API key for the base URL you are trying to access")
-  }
+  } else
   try({
     r <- GET(paste(base_url, "?auth_key=", api_key, sep=""), accept_json())
     content_index <- fromJSON(content(r, "text"))
@@ -38,10 +37,9 @@ get_index <- function(base_url, api_key){
 list_guid <- function(base_url, api_key){
   if (missing(base_url)) {
     warning("Please add a valid base URL")
-  }
-  if (missing(api_key)) {
+  } else if (missing(api_key)) {
     warning("Please add a valid API key for the base URL you are trying to access")
-  }
+  } else
   try({
     content_index <- get_index(base_url, api_key)
     return(content_index$guid)
@@ -60,10 +58,9 @@ list_guid <- function(base_url, api_key){
 list_titles <- function(base_url, api_key){
   if (missing(base_url)) {
     warning("Please add a valid base URL")
-  }
-  if (missing(api_key)) {
+  } else if (missing(api_key)) {
     warning("Please add a valid API key for the base URL you are trying to access")
-  }
+  } else
   try({
     content_index <- get_index(base_url, api_key)
     return(content_index$title)
@@ -73,14 +70,14 @@ list_titles <- function(base_url, api_key){
 #' Get data for a given GUID
 #'
 #' Get the data for any given GUID and return it as a data frame. Note that we
-#' use the "ajson" json format from the API. The "json" format has a more
+#' use the "ajson" JSON format from the API. The "JSON" format has a more
 #' complex structure.
 #'
-#' We do use the json response to get the \code{fLength} value, which indicates the
+#' We do use the JSON response to get the \code{fLength} value, which indicates the
 #' length of the dataset. This way we can include a fixed way to get around the
 #' default limit of 1000 rows of the Junar API.
 #'
-#' Note that this removes all meta-data from the json response given by the API.
+#' Note that this removes all meta-data from the JSON response given by the API.
 #'
 #' @param base_url The base URL of the Junar service
 #' @param api_key The user's API key for the Junar service
@@ -91,13 +88,11 @@ list_titles <- function(base_url, api_key){
 get_data <- function(base_url, api_key, guid) {
   if (missing(base_url)) {
     warning("Please add a valid base URL")
-  }
-  if (missing(api_key)) {
+  } else if (missing(api_key)) {
     warning("Please add a valid API key for the base URL you are trying to access")
-  }
-  if (missing(guid)) {
+  } else if (missing(guid)) {
     warning("Please add a valid GUID for the dataset you are trying to access")
-  }
+  } else
   try({
     r_json <- GET(paste(base_url, guid, "/data.json/","?auth_key=", api_key, sep=""), accept_json())
     jsondata <- fromJSON(content(r_json, "text"))

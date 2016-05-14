@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{clean_currency}
 \alias{clean_currency}
-\title{Clean Currency Values}
+\title{Clean currency values}
 \usage{
 clean_currency(currency_column, currency_symbol_pos = 1,
   thousand_separator = ",", decimal_separator = ".")
@@ -21,10 +21,11 @@ used. If any spaces are included, please include them here as well.}
 (defaults to ".")}
 }
 \description{
-Often Junar data involving currency data is not clean because for some reason
-content and presentation of currency values is not separated). To clean up
-this data quickly the following helper function accepts the position of the
-character value for the currency and the thousands and decimal delimiters.
+Often Junar data involving currency data is not clean because for some
+reason content and presentation of currency values is not separated). To
+clean up this data quickly the following helper function accepts the
+position of the character value for the currency and the thousands and
+decimal delimiters.
 }
 \details{
 The currency character position defaults to the first character from the

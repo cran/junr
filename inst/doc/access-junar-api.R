@@ -10,15 +10,15 @@ api_key <- "0bd55e858409eefabc629b28b2e7916361ef20ff"
 list_guid(base_url, api_key)
 
 ## ------------------------------------------------------------------------
-pres_list <-list_guid(base_url, api_key)
-pres_list[3]
-
-## ------------------------------------------------------------------------
 list_titles(base_url, api_key)
 
 ## ------------------------------------------------------------------------
 data_guid <- "COMPR-PUBLI-DEL-MINIS"
 purchasing_data <- get_data(base_url, api_key, data_guid)
+
+## ------------------------------------------------------------------------
+pres_list <-list_guid(base_url, api_key)
+pres_list[3]
 
 ## ------------------------------------------------------------------------
 get_dimensions(base_url, api_key)

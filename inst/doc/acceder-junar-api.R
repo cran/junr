@@ -17,8 +17,13 @@ guid_datos <- "COMPR-PUBLI-DEL-MINIS"
 datos_compras <- get_data(url_base, api_key, guid_datos)
 
 ## ------------------------------------------------------------------------
+datos_disponibles <- list_guid(url_base, api_key)
+datos_disponibles[3]
+
+## ------------------------------------------------------------------------
 get_dimensions(url_base, api_key)
 
 ## ------------------------------------------------------------------------
 datos_con_divisas <- get_data(url_base, api_key, "LICIT-ADJUD-POR-LOS-MINIS")
+datos_con_divisas$`Monto Adjudicado` <- clean_currency(datos_con_divisas$`Monto Adjudicado`)  
 
