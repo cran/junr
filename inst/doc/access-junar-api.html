@@ -1,167 +1,597 @@
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="pandoc" />
+<title>Introduction</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
 
-<meta name="author" content="Frans van Dunné" />
-
-<meta name="date" content="2016-05-13" />
-
-<title>Access Open Data Through the Junar API</title>
-
-
-
-<style type="text/css">code{white-space: pre;}</style>
+<!-- Styles for R syntax highlighter -->
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
 </style>
 
 
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
-
 </head>
 
 <body>
-
-
-
-
-<h1 class="title toc-ignore">Access Open Data Through the Junar API</h1>
-<h4 class="author"><em>Frans van Dunné</em></h4>
-<h4 class="date"><em>2016-05-13</em></h4>
-
-
-
-<div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>The Junar API is the basis for a number of Open Data initiatives in Latin America and the USA. The <code>junr</code> package is a wrapper to make it easier to access data made public through the Junar API. Some examples of implementations are: <a href="http://data.cityofpasadena.net/home/">the City of Pasadena</a>, and <a href="http://data.sanjoseca.gov/home/">the City of San Jose</a>. Others are listed on the <a href="http://junar.com/">Junar website</a>.</p>
-</div>
-<div id="usage" class="section level2">
+
+<p>The Junar API is the basis for a number of Open Data initiatives in Latin
+America and the USA. The <code>junr</code> package is a wrapper to make it easier to
+access data made public through the Junar API. Some examples of implementations
+are listed on the <a href="http://www.junar.com/">Junar website</a>.</p>
+
 <h2>Usage</h2>
-<p>As an example we will use the data from the <a href="http://datosabiertos.presidencia.go.cr/home">Costa Rican President’s Office</a>.The first step is to access the website offering the open data to identify the base URL and to obtain an API Key to get access to the Junar API that hosts the data. You will find both on the <a href="http://datosabiertos.presidencia.go.cr/developers/">developers page of the Open Data Costa Rica site</a>.</p>
-<p>Below we use a test API Key so that all the examples will run. You may want to get your own API Key instead to run the examples below. Note that with Junar each URL has its own API key.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(junr)
-base_url &lt;-<span class="st"> &quot;http://api.datosabiertos.presidencia.go.cr/api/v2/datastreams/&quot;</span>
-api_key &lt;-<span class="st"> &quot;0bd55e858409eefabc629b28b2e7916361ef20ff&quot;</span> </code></pre></div>
-<p>Now that we have the basic information for a connection we can quickly check what data is available behind this URL.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">get_index</span>(base_url, api_key)</code></pre></div>
-<p>The <code>get_index</code>function returns the complete list of available data with all meta-data included as a data frame.</p>
-<p>To get only a list of the global unique identifiers (GUID) of the data sets, you can use <code>list_guid</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">list_guid</span>(base_url, api_key)</code></pre></div>
-<pre><code>##  [1] &quot;PLANI-DEL-MINIS&quot;           &quot;EJECU-DE-PRESU-DE-INSTI&quot;  
-##  [3] &quot;COMPR-PUBLI-DE-PRESI&quot;      &quot;LICIT-ADJUD-POR-LAS-INSTI&quot;
-##  [5] &quot;DESCR-DE-ABREV-DE-LAS&quot;     &quot;EJECU-DE-PRESU-DE-50724&quot;  
-##  [7] &quot;LICIT-ADJUD-DE-LAS-INSTI&quot;  &quot;DATOS-CORRE-AL-PAGO-32327&quot;
-##  [9] &quot;COMPR-PUBLI-DEL-MINIS&quot;     &quot;LICIT-ADJUD-POR-LAS-81483&quot;
-## [11] &quot;DATOS-CORRE-AL-PAGO-DE&quot;    &quot;LICIT-ADJUD-POR-LOS-MINIS&quot;</code></pre>
+
+<p>As an example we will use the data from the <a href="http://datosabiertos.presidencia.go.cr/home">Costa Rican President&#39;s
+Office</a>.The first step is to
+access the website offering the open data to identify the base URL and to
+obtain an API Key to get access to the Junar API that hosts the data. You will
+find both on the <a href="http://datosabiertos.presidencia.go.cr/developers/">developers page of the Open Data Costa Rica
+site</a>. </p>
+
+<p>Below we use a test API Key so that all the examples will run. You may want to
+get your own API Key instead to run the examples below. Note that with Junar
+each URL has its own API key.</p>
+
+<pre><code class="r">library(junr)
+base_url &lt;- &quot;http://api.datosabiertos.presidencia.go.cr/api/v2/datastreams/&quot;
+api_key &lt;- &quot;0bd55e858409eefabc629b28b2e7916361ef20ff&quot; 
+</code></pre>
+
+<p>Now that we have the basic information for a connection we can quickly check
+what data is available behind this URL.</p>
+
+<pre><code class="r">get_index(base_url, api_key)
+</code></pre>
+
+<p>The <code>get_index</code>function returns the complete list of available data with all
+meta-data included as a data frame. </p>
+
+<p>To get only a list of the global unique identifiers (GUID) of the data sets,
+you can use <code>list_guid</code>. </p>
+
+<pre><code class="r">list_guid(base_url, api_key)
+</code></pre>
+
+<pre><code>##   [1] &quot;LLEGA-INTER-A-COSTA-RICA&quot;     &quot;CRECI-DEL-PIB&quot;               
+##   [3] &quot;IPC&quot;                          &quot;LICIT-ADJUD-POR-LAS-INSTI&quot;   
+##   [5] &quot;LICIT-ADJUD-POR-LOS-MINIS&quot;    &quot;LICIT-ADJUD-POR-LAS-81483&quot;   
+##   [7] &quot;MAYO-2017-PRESI-DE-LA&quot;        &quot;MAYO-2017-MINIS-DE-LA&quot;       
+##   [9] &quot;ABRIL-2017-PRESI-DE-LA&quot;       &quot;ABRIL-2017-MINIS-DE-LA&quot;      
+##  [11] &quot;NOVIE-2016-MINIS-DE-90677&quot;    &quot;NOVIE-2016-SALAR-PRESI-DE&quot;   
+##  [13] &quot;COMPR-PUBLI-DE-PRESI-Y&quot;       &quot;BASE-DE-DATOS-RNT&quot;           
+##  [15] &quot;PRUEB&quot;                        &quot;MARZO-2017-SALAR-MINIS-DE&quot;   
+##  [17] &quot;OCTUB-2016-SALAR-MINIS-DE&quot;    &quot;OCTUB-2016-SALAR-PRESI-65964&quot;
+##  [19] &quot;OCTUB-2016-SALAR-PRESI-65743&quot; &quot;021-OCTUB-16&quot;                
+##  [21] &quot;ENERO-2017-SALAR-PRESI-DE&quot;    &quot;ENERO-2017-SALAR-MINIS-DE&quot;   
+##  [23] &quot;DICIE-2016-SALAR-MINIS-DE&quot;    &quot;DICIE-2016-PLANI-PRESI-84096&quot;
+##  [25] &quot;OCTUB-2016-SALAR-PRESI-DE&quot;    &quot;MINIS-DE-OBRAS-PUBLI-97637&quot;  
+##  [27] &quot;MINIS-DE-SEGUR-PUBLI-2014&quot;    &quot;MINIS-DE-PLANI-NACIO-2014&quot;   
+##  [29] &quot;MINIS-DE-EDUCA-PUBLI-67848&quot;   &quot;MINIS-DE-EDUCA-PUBLI-93512&quot;  
+##  [31] &quot;DIREC-GENER-DE-MIGRA-Y&quot;       &quot;DIREC-NACIO-DE-NOTAR-59323&quot;  
+##  [33] &quot;MINIS-DE-GOBER-Y-POLIC&quot;       &quot;IMPRE-NACIO-2014-2016&quot;       
+##  [35] &quot;INSTI-COSTA-DE-TURIS-2014&quot;    &quot;MINIS-DE-RELAC-EXTER-Y&quot;      
+##  [37] &quot;MINIS-DE-EDUCA-PUBLI-2014&quot;    &quot;INSTI-NACIO-DE-TRANS-AGROP&quot;  
+##  [39] &quot;DIREC-NACIO-DE-NOTAR-2014&quot;    &quot;CONSO-DE-VIAJE-AL-EXTER&quot;     
+##  [41] &quot;SETIE-2016-SALAR-MINIS-PRESI&quot; &quot;SETIE-2016-PRESI-DE-LA&quot;      
+##  [43] &quot;AGOST-2016-MINIS-DE-LA&quot;       &quot;AGOST-2016-SALAR-PRESI-DE&quot;   
+##  [45] &quot;SERVI-NACIO-DE-SALUD-ANIMA&quot;   &quot;SERVI-FITOS-DEL-ESTAD-2015&quot;  
+##  [47] &quot;MINIS-DE-OBRAS-PUBLI-Y&quot;       &quot;MINIS-DE-HACIE-2015&quot;         
+##  [49] &quot;IMPRE-NACIO-2015&quot;             &quot;MINIS-DE-EDUCA-PUBLI-2015&quot;   
+##  [51] &quot;MINIS-DE-CIENC-TECNO-Y&quot;       &quot;MINIS-DE-AGRIC-Y-GANAD&quot;      
+##  [53] &quot;INSTI-NACIO-DE-TURIS-2015&quot;    &quot;DIREC-DE-MIGRA-Y-EXTRA&quot;      
+##  [55] &quot;CUMPL-DE-INFOR-DE-87487&quot;      &quot;CUMPL-DE-INFOR-DE-14097&quot;     
+##  [57] &quot;CUMPL-DE-INFOR-DE-14456&quot;      &quot;CUMPL-DE-INFOR-DE-14478&quot;     
+##  [59] &quot;CUMPL-DE-INFOR-DE-26552&quot;      &quot;AYA-EVALU-POI-PROGR-02&quot;      
+##  [61] &quot;AYA-EVALU-POI-I-TRIME&quot;        &quot;AYA-INFOR-DE-EJECU-PRESU&quot;    
+##  [63] &quot;AYA-SALAR-ENERO-2016&quot;         &quot;AYA-CONTR-ADJUD-EN-FIRME&quot;    
+##  [65] &quot;CUMPL-DE-AUDIT-MINIS-61945&quot;   &quot;CUMPL-DE-INFOR-MINIS-DE&quot;     
+##  [67] &quot;CUMPL-DE-INFOR-SENAS&quot;         &quot;CUMPL-DE-AUDIT-MINIS-DE&quot;     
+##  [69] &quot;CUMPL-DE-AUDIT-COMEX&quot;         &quot;MATRI-DE-CUMPL-DE-43076&quot;     
+##  [71] &quot;MATRI-DE-CUMPL-DE-AUDIT&quot;      &quot;CUMPL-DE-INFOR-DE-40516&quot;     
+##  [73] &quot;ABRIL-2016-SALAR-MINIS-DE&quot;    &quot;JUNIO-2016-SALAR-MINIS-23346&quot;
+##  [75] &quot;JULIO-2016-SALAR-PRESI-DE&quot;    &quot;JUNIO-2016-SALAR-PRESI-DE&quot;   
+##  [77] &quot;MAYO-2015-SALAR-PRESI-DE&quot;     &quot;JULIO-2016-MINIS-DE-LA&quot;      
+##  [79] &quot;JUNIO-2016-SALAR-MINIS-DE&quot;    &quot;MAYO-2016-SALAR-MINIS-DE&quot;    
+##  [81] &quot;ABRIL-2016-SALAR-DEL-MINIS&quot;   &quot;ABRIL-2016-SALAR-PRESI-DE&quot;   
+##  [83] &quot;CUMPL-DE-INFOR-DE-75676&quot;      &quot;CUMPL-DE-INFOR-DE-AUDIT&quot;     
+##  [85] &quot;INFOR-CUMPL-DE-AUDIT-97747&quot;   &quot;INFOR-CUMPL-DE-AUDIT-43518&quot;  
+##  [87] &quot;INFOR-CUMPL-DE-AUDIT-36700&quot;   &quot;INFOR-CUMPL-DE-AUDIT-INTER&quot;  
+##  [89] &quot;DATOS-CORRE-AL-PAGO-DE&quot;       &quot;JUNIO-2016-PLANI-DE-PRESI&quot;   
+##  [91] &quot;JUNIO-2016-SALAR-DE-PRESI&quot;    &quot;AYA-GASTO-DE-VIAJE-AL&quot;       
+##  [93] &quot;INFOR-DE-HORAS-EXTRA-01&quot;      &quot;INFOR-DE-HORAS-EXTRA-67320&quot;  
+##  [95] &quot;INFOR-DE-HORAS-EXTRA-7&quot;       &quot;VISTA&quot;                       
+##  [97] &quot;PLANI-DE-SALAR-PRESI-DE&quot;      &quot;COMPR-PUBLI-DE-PRESI&quot;        
+##  [99] &quot;COMPR-PUBLI-DEL-MINIS&quot;        &quot;DESCR-DE-ABREV-DE-LAS&quot;       
+## [101] &quot;EJECU-DE-PRESU-DE-50724&quot;      &quot;EJECU-DE-PRESU-DE-INSTI&quot;     
+## [103] &quot;LICIT-ADJUD-DE-LAS-INSTI&quot;     &quot;PLANI-DEL-MINIS&quot;
+</code></pre>
+
 <p>You can also make a list of the titles of the data sets:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">list_titles</span>(base_url, api_key)</code></pre></div>
-<pre><code>##  [1] &quot;Ministerio de la Presidencia&quot;                                                    
-##  [2] &quot;Ejecución de presupuesto de Instituciones para el 2015&quot;                          
-##  [3] &quot;Compras públicas de Presidencia&quot;                                                 
-##  [4] &quot;Licitaciones adjudicadas por las Instituciones Públicas según año&quot;               
-##  [5] &quot;Descripción de abreviaturas de las ejecuciones &quot;                                 
-##  [6] &quot;Ejecución de presupuesto de Instituciones para el 2014&quot;                          
-##  [7] &quot;Licitaciones Adjudicadas de las Instituciones Públicas para el período 2014-2015&quot;
-##  [8] &quot;Datos correspondientes al pago de planilla del Ministerio&quot;                       
-##  [9] &quot;Compras públicas del Ministerio de la Presidencia&quot;                               
-## [10] &quot;Licitaciones adjudicadas por las Instituciones Públicas según tipo de trámite&quot;   
-## [11] &quot;Datos correspondientes al pago de planilla de Presidencia&quot;                       
-## [12] &quot;Licitaciones adjudicadas por los Ministerios&quot;</code></pre>
-<p>Both <code>list_guid</code> and <code>list_titles</code> where set up for convenience only because the results tend to fit in the console window making it easier to read. They are meant to help to get a quick overview of the available data.</p>
-</div>
-<div id="downloading-data-to-r" class="section level2">
+
+<pre><code class="r">list_titles(base_url, api_key)
+</code></pre>
+
+<pre><code>##   [1] &quot;Llegadas Internacionales a Costa Rica&quot;                                           
+##   [2] &quot;Crecimiento del PIB&quot;                                                             
+##   [3] &quot;IPC&quot;                                                                             
+##   [4] &quot;Licitaciones adjudicadas por las Instituciones Públicas según año&quot;               
+##   [5] &quot;Licitaciones adjudicadas por los Ministerios&quot;                                    
+##   [6] &quot;Licitaciones adjudicadas por las Instituciones Públicas según tipo de trámite&quot;   
+##   [7] &quot;Mayo 2017 - Presidencia de la República&quot;                                         
+##   [8] &quot;Mayo 2017 - Ministerio de la Presidencia&quot;                                        
+##   [9] &quot;Abril 2017 - Presidencia de la República&quot;                                        
+##  [10] &quot;Abril 2017 - Ministerio de la Presidencia&quot;                                       
+##  [11] &quot;Noviembre 2016 - Ministerio de la Presidencia&quot;                                   
+##  [12] &quot;Noviembre 2016 - Salarios Presidencia de la República&quot;                           
+##  [13] &quot;Compras públicas de Presidencia y el Ministerio de la Presidencia&quot;               
+##  [14] &quot;Base de datos RNT&quot;                                                               
+##  [15] &quot;PRUEBA1&quot;                                                                         
+##  [16] &quot;Marzo 2017 - Salarios Ministerio de la Presidencia&quot;                              
+##  [17] &quot;Octubre 2016 - Salarios Ministerio de la Presidencia&quot;                            
+##  [18] &quot;Octubre 2016 - Salarios Presidencia de la República&quot;                             
+##  [19] &quot;Octubre 2016 - Salarios Presidencia de la República&quot;                             
+##  [20] &quot;Octubre 2016 - Salarios Presidencia de la República&quot;                             
+##  [21] &quot;Enero 2017 - Salarios Presidencia de la República&quot;                               
+##  [22] &quot;Enero 2017 - Salarios Ministerio de la Presidencia&quot;                              
+##  [23] &quot;Diciembre 2016 - Salario Ministerio de la Presidencia&quot;                           
+##  [24] &quot;Diciembre 2016 - Planilla Presidencia de la República&quot;                           
+##  [25] &quot;Octubre 2016 - Salarios Presidencia de la República&quot;                             
+##  [26] &quot;Ministerio de Obras Públicas y Transporte (2014-2016)&quot;                           
+##  [27] &quot;Ministerio de Seguridad Pública (2014-2016)&quot;                                     
+##  [28] &quot;Ministerio de Planificación Nacional (2014-2016)&quot;                                
+##  [29] &quot;Ministerio de Educación Pública (2014-2016)&quot;                                     
+##  [30] &quot;Ministerio de Educación Pública (2014-2016)&quot;                                     
+##  [31] &quot;Dirección General de Migración y Extranjería (2014 - 2016)&quot;                      
+##  [32] &quot;DINADECO (2014 - 2018)&quot;                                                          
+##  [33] &quot;Ministerio de Gobernación y Policía (2014-2016)&quot;                                 
+##  [34] &quot;Imprenta Nacional 2014-2016&quot;                                                     
+##  [35] &quot;Instituto Costarricense de Turismo - (2014-2016)&quot;                                
+##  [36] &quot;Ministerio de Relaciones Exteriores y Culto&quot;                                     
+##  [37] &quot;Ministerio de Educación Pública (2014-2016)&quot;                                     
+##  [38] &quot;Instituto Nacional de Transferencia Agropecuaria (2014-2016)&quot;                    
+##  [39] &quot;Dirección Nacional de Notariado (2014-2016)&quot;                                     
+##  [40] &quot;Consolidado de viajes al exterior&quot;                                               
+##  [41] &quot;Setiembre 2016 - Salarios Ministerio Presidencia&quot;                                
+##  [42] &quot;Setiembre 2016 - Presidencia de la República&quot;                                    
+##  [43] &quot;Agosto 2016 - Ministerio de la Presidencia&quot;                                      
+##  [44] &quot;Agosto 2016 - Salarios Presidencia de la República&quot;                              
+##  [45] &quot;Servicio Nacional de Salud Animal SENASA (2015)&quot;                                 
+##  [46] &quot;Servicio Fitosanitario del Estado (2015)&quot;                                        
+##  [47] &quot;Ministerio de Obras Públicas y Transportes (2015)&quot;                               
+##  [48] &quot;Ministerio de Hacienda (2015)&quot;                                                   
+##  [49] &quot;Imprenta Nacional (2015)&quot;                                                        
+##  [50] &quot;Ministerio de Educación Pública (2015)&quot;                                          
+##  [51] &quot;Ministerio de Ciencia, Tecnología y Telecomunicaciones (2015)&quot;                   
+##  [52] &quot;Ministerio de Agricultura y Ganadería (2015)&quot;                                    
+##  [53] &quot;Instituto Nacional de Turismo (2015)&quot;                                            
+##  [54] &quot;Dirección de Migración y Extranjería - 2015&quot;                                     
+##  [55] &quot;Cumplimiento de Informe de Auditoría Interna - DINADECO&quot;                         
+##  [56] &quot;Cumplimiento de Informe de Auditoría Interna - DNN&quot;                              
+##  [57] &quot;Cumplimiento de Informe de Auditoría Interna - MINAE&quot;                            
+##  [58] &quot;Cumplimiento de Informe de Auditoría Interna - Ministerio de Hacienda&quot;           
+##  [59] &quot;Cumplimiento de Informe de Auditoría Interna - MIVAH&quot;                            
+##  [60] &quot;AYA - Evaluación POI - Programa 02  ASADAS - I Trimestre 2016&quot;                   
+##  [61] &quot;AYA - Evaluación POI - Programa 02 - I Trimestre 2016&quot;                           
+##  [62] &quot;AYA - Informe de ejecución presupuestario consolidado (I T-2016)&quot;                
+##  [63] &quot;AYA - Salarios Enero 2016&quot;                                                       
+##  [64] &quot;AyA - Contrataciones adjudicadas en firme&quot;                                       
+##  [65] &quot;Cumplimiento de auditoría - Ministerio de Gobernación y Policía&quot;                 
+##  [66] &quot;Cumplimiento de auditoría - Ministerio de Relaciones Exteriores&quot;                 
+##  [67] &quot;Cumplimiento de auditoría  - SENASA&quot;                                             
+##  [68] &quot;Cumplimiento de auditoría - Ministerio de la Presidencia&quot;                        
+##  [69] &quot;Cumplimiento de auditoría - COMEX&quot;                                               
+##  [70] &quot;Cumplimiento de auditoría - Imprenta Nacional&quot;                                   
+##  [71] &quot;Cumplimiento de auditoría - Dirección General de Migración y Extranjer&quot;          
+##  [72] &quot;Cumplimiento de Informe de Auditoría Interna - SFE&quot;                              
+##  [73] &quot;Abril 2016 - Salarios Ministerio de la Presidencia&quot;                              
+##  [74] &quot;Junio 2016 - Salarios Ministerio de la Presidencia&quot;                              
+##  [75] &quot;Julio 2016 - Salarios Presidencia de la República&quot;                               
+##  [76] &quot;Junio 2016 - Salarios Presidencia de la República&quot;                               
+##  [77] &quot;Mayo 2016 - Salarios Presidencia de la República&quot;                                
+##  [78] &quot;Julio 2016 - Ministerio de la Presidencia&quot;                                       
+##  [79] &quot;Junio 2016 - Salarios Ministerio de la Presidencia&quot;                              
+##  [80] &quot;Mayo 2016 - Salarios Ministerio de la Presidencia&quot;                               
+##  [81] &quot;Abril 2016 - Salarios del Ministerio de la Presidencia&quot;                          
+##  [82] &quot;Abril 2016 - Salarios Presidencia de la República&quot;                               
+##  [83] &quot;Cumplimiento de Informe de Auditoría Interna - Salud&quot;                            
+##  [84] &quot;Cumplimiento de informes de auditoría interna - MAG&quot;                             
+##  [85] &quot;Cumplimiento de Informes de Auditoría Interna - ICT&quot;                             
+##  [86] &quot;Cumplimiento de Informe de Auditoría Interna - MOPT&quot;                             
+##  [87] &quot;Cumplimiento de Informes de Auditoría Interna - Ministerio de RREE&quot;              
+##  [88] &quot;Cumplimiento de Informe de Auditoría Interna - SENASA&quot;                           
+##  [89] &quot;Octubre 2015: Planilla de Salarios: Presidencia de la República&quot;                 
+##  [90] &quot;JUNIO 2016 - Planilla de Presidencia de la República&quot;                            
+##  [91] &quot;Junio 2016 - Salarios de Presidencia de la República&quot;                            
+##  [92] &quot;AyA. Gastos de viajes al exterior Mayo 2014 - Abril 2015&quot;                        
+##  [93] &quot;Informe de Horas Extra: 01 de enero 2015 al 31 de diciembre de 2015&quot;             
+##  [94] &quot;Informe de Horas Extra: 01 de enero 2015 al 31 de diciembre de 2015&quot;             
+##  [95] &quot;Informe de Horas Extra: 7 de mayo 2014 al 31 de diciembre 2014.&quot;                 
+##  [96] &quot;Informe de Horas Extra: 01 de enero 2016 al 30 de abril 2016&quot;                    
+##  [97] &quot;Abril 2016: Planilla de Salarios Presidencia de la República&quot;                    
+##  [98] &quot;Compras públicas de Presidencia&quot;                                                 
+##  [99] &quot;Compras públicas del Ministerio de la Presidencia&quot;                               
+## [100] &quot;Descripción de abreviaturas de las ejecuciones &quot;                                 
+## [101] &quot;Ejecución de presupuesto de Instituciones para el 2014&quot;                          
+## [102] &quot;Ejecución de presupuesto de Instituciones para el 2015&quot;                          
+## [103] &quot;Licitaciones Adjudicadas de las Instituciones Públicas para el período 2014-2015&quot;
+## [104] &quot;Ministerio de la Presidencia&quot;
+</code></pre>
+
+<p>Both <code>list_guid</code> and <code>list_titles</code> where set up for convenience only because
+the results tend to fit in the console window making it easier to read. They
+are meant to help to get a quick overview of the available data.</p>
+
 <h2>Downloading data to R</h2>
-<p>You need to know the Global Unique Identifier (GUID) of the data set that you are interested in to be able to download them to your R session. You can look for the GUID on the web page that shows the data of interest. For example on the page for <a href="http://datosabiertos.presidencia.go.cr/dashboards/9566/compras-publicas/">public expenditure of the Costa Rican government</a> there is a table called “Public Purchasing of the Ministry of the Presidency”. In the menu underneath the table you have an option to “Obtain GUID”. This last option opens a pop-up showing the GUID “COMPR-PUBLI-DEL-MINIS” that we are going to use in the example below.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data_guid &lt;-<span class="st"> &quot;COMPR-PUBLI-DEL-MINIS&quot;</span>
-purchasing_data &lt;-<span class="st"> </span><span class="kw">get_data</span>(base_url, api_key, data_guid)</code></pre></div>
-<p>With <code>View(purchasing_data)</code> you can check whether the data have been downloaded correctly, and have a quick visual check on the mode of the data (see below to convert currency data from text to numeric).</p>
-<p>You may note that if you do not need to go to the web interface to get the GUID for any data sets of interest. With the function <code>list_guid()</code> as we used it above, we obtained the same information.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pres_list &lt;-<span class="kw">list_guid</span>(base_url, api_key)
-pres_list[<span class="dv">3</span>]</code></pre></div>
-<pre><code>## [1] &quot;LICIT-ADJUD-POR-LOS-MINIS&quot;</code></pre>
-<p>We can get the GUID we are interested in by fetching the third entry in the list of GUID’s (see the full list in the example above). And the same index numbers can be used with a list of full titles created with <code>list_titles()</code>.</p>
-</div>
-<div id="determine-data-dimensions" class="section level2">
+
+<p>You need to know the Global Unique Identifier (GUID) of the data set that you
+are interested in to be able to download them to your R session. You can look
+for the GUID on the web page that shows the data of interest. For example on the
+page for <a href="http://datosabiertos.presidencia.go.cr/dashboards/9566/compras-publicas/">public expenditure of the Costa Rican
+government</a>
+there is a table called &ldquo;Public Purchasing of the Ministry of the Presidency&rdquo;.
+In the menu underneath the table you have an option to &ldquo;Obtain GUID&rdquo;. This last
+option opens a pop-up showing the GUID &ldquo;COMPR-PUBLI-DEL-MINIS&rdquo; that we are
+going to use in the example below.</p>
+
+<pre><code class="r">data_guid &lt;- &quot;COMPR-PUBLI-DEL-MINIS&quot;
+purchasing_data &lt;- get_data(base_url, api_key, data_guid)
+</code></pre>
+
+<p>With <code>View(purchasing_data)</code> you can check whether the data have been
+downloaded correctly, and have a quick visual check on the mode of the data
+(see below to convert currency data from text to numeric).</p>
+
+<p>You may note that if you do not need to go to the web interface to get the GUID
+for any data sets of interest. With the function <code>list_guid()</code> as we used it
+above, we obtained the same information. </p>
+
+<pre><code class="r">pres_list &lt;-list_guid(base_url, api_key)
+pres_list[3]
+</code></pre>
+
+<pre><code>## [1] &quot;IPC&quot;
+</code></pre>
+
+<p>We can get the GUID we are interested in by fetching the third entry in the
+list of GUID&#39;s (see the full list in the example above). And the same index
+numbers can be used with a list of full titles created  with <code>list_titles()</code>. </p>
+
 <h2>Determine data dimensions</h2>
-<p>On data platforms that run Junar, many data sets are just tables of data that has already been analyzed and summarized. It is not immediately obvious which sets contain many data points, and which sets contain only a few rows.</p>
-<p>The function <code>get_dimensions</code> will download all data sets offered through the base URL and determine how many rows and columns are available in each one. It is useful to make a quick assessment of the data available. However, please note that it may take a while before the function finishes, especially if there are many GUID’s.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">get_dimensions</span>(base_url, api_key)</code></pre></div>
-<pre><code>##                         GUID   NROW NCOL    DIM
-## 2            PLANI-DEL-MINIS   5561    8  44488
-## 21   EJECU-DE-PRESU-DE-INSTI   8867   39 345813
-## 3  LICIT-ADJUD-POR-LOS-MINIS     10    2     20
-## 4       COMPR-PUBLI-DE-PRESI    427    4   1708
-## 5  LICIT-ADJUD-POR-LAS-INSTI      3    2      6
-## 6      DESCR-DE-ABREV-DE-LAS     27    4    108
-## 7    EJECU-DE-PRESU-DE-50724   9249   40 369960
-## 8   LICIT-ADJUD-DE-LAS-INSTI 103471    7 724297
-## 9  DATOS-CORRE-AL-PAGO-32327   5561   10  55610
-## 10     COMPR-PUBLI-DEL-MINIS    324    4   1296
-## 11 LICIT-ADJUD-POR-LAS-81483      7    2     14
-## 12    DATOS-CORRE-AL-PAGO-DE   2472   10  24720</code></pre>
-</div>
-<div id="clean-up-currency-data" class="section level2">
+
+<p>On data platforms that run Junar, many data sets are just tables of data that
+has already been analyzed and summarized. It is not immediately obvious which
+sets contain many data points, and which sets contain only a few rows.</p>
+
+<p>The function <code>get_dimensions</code> will download all data sets offered through the
+base URL and determine how many rows and columns are available in each one. It
+is useful to make a quick assessment of the data available. However, please
+note that it may take a while before the function finishes, especially if there
+are many GUID&#39;s.</p>
+
+<pre><code class="r">get_dimensions(base_url, api_key)
+</code></pre>
+
+<pre><code>## Warning in doTryCatch(return(expr), name, parentenv, handler): NAs
+## introduced by coercion
+
+## Warning in doTryCatch(return(expr), name, parentenv, handler): NAs
+## introduced by coercion
+
+## Warning in doTryCatch(return(expr), name, parentenv, handler): NAs
+## introduced by coercion
+</code></pre>
+
+<pre><code>##                             GUID NROW NCOL   DIM
+## 2       LLEGA-INTER-A-COSTA-RICA    9    5    45
+## 21                 CRECI-DEL-PIB   55    6   330
+## 3                            IPC   38    7   266
+## 4      LICIT-ADJUD-POR-LAS-INSTI    3    2     6
+## 5      LICIT-ADJUD-POR-LOS-MINIS   10    2    20
+## 6      LICIT-ADJUD-POR-LAS-81483    7    2    14
+## 7          MAYO-2017-PRESI-DE-LA  999    6  5994
+## 8          MAYO-2017-MINIS-DE-LA  760    6  4560
+## 9         ABRIL-2017-PRESI-DE-LA  999    6  5994
+## 10        ABRIL-2017-MINIS-DE-LA  764    6  4584
+## 11     NOVIE-2016-MINIS-DE-90677   NA   NA    NA
+## 12     NOVIE-2016-SALAR-PRESI-DE  999    6  5994
+## 13        COMPR-PUBLI-DE-PRESI-Y  217    9  1953
+## 14             BASE-DE-DATOS-RNT  999   20 19980
+## 15                         PRUEB   57    6   342
+## 16     MARZO-2017-SALAR-MINIS-DE  772    6  4632
+## 17     OCTUB-2016-SALAR-MINIS-DE  999   18 17982
+## 18  OCTUB-2016-SALAR-PRESI-65964  999    6  5994
+## 19  OCTUB-2016-SALAR-PRESI-65743  999    6  5994
+## 20                  021-OCTUB-16  999    6  5994
+## 211    ENERO-2017-SALAR-PRESI-DE  999    6  5994
+## 22     ENERO-2017-SALAR-MINIS-DE  885    6  5310
+## 23     DICIE-2016-SALAR-MINIS-DE  777    6  4662
+## 24  DICIE-2016-PLANI-PRESI-84096  999    6  5994
+## 25     OCTUB-2016-SALAR-PRESI-DE  999    6  5994
+## 26    MINIS-DE-OBRAS-PUBLI-97637  999   15 14985
+## 27     MINIS-DE-SEGUR-PUBLI-2014  620   15  9300
+## 28     MINIS-DE-PLANI-NACIO-2014  312   13  4056
+## 29    MINIS-DE-EDUCA-PUBLI-67848  808   15 12120
+## 30    MINIS-DE-EDUCA-PUBLI-93512  808   15 12120
+## 31        DIREC-GENER-DE-MIGRA-Y   61   15   915
+## 32    DIREC-NACIO-DE-NOTAR-59323   61   15   915
+## 33        MINIS-DE-GOBER-Y-POLIC   47   14   658
+## 34         IMPRE-NACIO-2014-2016  406   15  6090
+## 35     INSTI-COSTA-DE-TURIS-2014  291   15  4365
+## 36        MINIS-DE-RELAC-EXTER-Y   92   15  1380
+## 37     MINIS-DE-EDUCA-PUBLI-2014  675   15 10125
+## 38    INSTI-NACIO-DE-TRANS-AGROP   20   15   300
+## 39     DIREC-NACIO-DE-NOTAR-2014   18   14   252
+## 40       CONSO-DE-VIAJE-AL-EXTER  327   14  4578
+## 41  SETIE-2016-SALAR-MINIS-PRESI   99    6   594
+## 42        SETIE-2016-PRESI-DE-LA   99    6   594
+## 43        AGOST-2016-MINIS-DE-LA  739    6  4434
+## 44     AGOST-2016-SALAR-PRESI-DE    0    6     0
+## 45    SERVI-NACIO-DE-SALUD-ANIMA   16   15   240
+## 46    SERVI-FITOS-DEL-ESTAD-2015    0   15     0
+## 47        MINIS-DE-OBRAS-PUBLI-Y  614   15  9210
+## 48           MINIS-DE-HACIE-2015   51   15   765
+## 49              IMPRE-NACIO-2015   95   14  1330
+## 50     MINIS-DE-EDUCA-PUBLI-2015  278   15  4170
+## 51        MINIS-DE-CIENC-TECNO-Y   13   15   195
+## 52        MINIS-DE-AGRIC-Y-GANAD   20   15   300
+## 53     INSTI-NACIO-DE-TURIS-2015   24   15   360
+## 54        DIREC-DE-MIGRA-Y-EXTRA   32   15   480
+## 55       CUMPL-DE-INFOR-DE-87487   16   63  1008
+## 56       CUMPL-DE-INFOR-DE-14097   12   63   756
+## 57       CUMPL-DE-INFOR-DE-14456   87   14  1218
+## 58       CUMPL-DE-INFOR-DE-14478   58   14   812
+## 59       CUMPL-DE-INFOR-DE-26552   13   14   182
+## 60        AYA-EVALU-POI-PROGR-02    6   11    66
+## 61         AYA-EVALU-POI-I-TRIME    6   12    72
+## 62      AYA-INFOR-DE-EJECU-PRESU  204   10  2040
+## 63          AYA-SALAR-ENERO-2016  999   10  9990
+## 64      AYA-CONTR-ADJUD-EN-FIRME  284    4  1136
+## 65    CUMPL-DE-AUDIT-MINIS-61945    4   15    60
+## 66       CUMPL-DE-INFOR-MINIS-DE   31   63  1953
+## 67          CUMPL-DE-INFOR-SENAS   16   14   224
+## 68       CUMPL-DE-AUDIT-MINIS-DE   23   14   322
+## 69          CUMPL-DE-AUDIT-COMEX   12   14   168
+## 70       MATRI-DE-CUMPL-DE-43076   95   14  1330
+## 71       MATRI-DE-CUMPL-DE-AUDIT    1   14    14
+## 72       CUMPL-DE-INFOR-DE-40516  312   14  4368
+## 73     ABRIL-2016-SALAR-MINIS-DE  999    8  7992
+## 74  JUNIO-2016-SALAR-MINIS-23346  768    6  4608
+## 75     JULIO-2016-SALAR-PRESI-DE  999    6  5994
+## 76     JUNIO-2016-SALAR-PRESI-DE  999    6  5994
+## 77      MAYO-2015-SALAR-PRESI-DE  999    6  5994
+## 78        JULIO-2016-MINIS-DE-LA  768    6  4608
+## 79     JUNIO-2016-SALAR-MINIS-DE  768    6  4608
+## 80      MAYO-2016-SALAR-MINIS-DE  768    6  4608
+## 81    ABRIL-2016-SALAR-DEL-MINIS  999    8  7992
+## 82     ABRIL-2016-SALAR-PRESI-DE  999   13 12987
+## 83       CUMPL-DE-INFOR-DE-75676   21   15   315
+## 84       CUMPL-DE-INFOR-DE-AUDIT   25   14   350
+## 85    INFOR-CUMPL-DE-AUDIT-97747   21   15   315
+## 86    INFOR-CUMPL-DE-AUDIT-43518  131   14  1834
+## 87    INFOR-CUMPL-DE-AUDIT-36700   42   14   588
+## 88    INFOR-CUMPL-DE-AUDIT-INTER   15   14   210
+## 89        DATOS-CORRE-AL-PAGO-DE  999   10  9990
+## 90     JUNIO-2016-PLANI-DE-PRESI    0   15     0
+## 91     JUNIO-2016-SALAR-DE-PRESI  321   15  4815
+## 92         AYA-GASTO-DE-VIAJE-AL   13    4    52
+## 93       INFOR-DE-HORAS-EXTRA-01  386    7  2702
+## 94    INFOR-DE-HORAS-EXTRA-67320  386    7  2702
+## 95        INFOR-DE-HORAS-EXTRA-7  182    7  1274
+## 96                         VISTA  386    8  3088
+## 97       PLANI-DE-SALAR-PRESI-DE  999   13 12987
+## 98          COMPR-PUBLI-DE-PRESI  427    4  1708
+## 99         COMPR-PUBLI-DEL-MINIS  324    4  1296
+## 100        DESCR-DE-ABREV-DE-LAS   27    4   108
+## 101      EJECU-DE-PRESU-DE-50724  999   40 39960
+## 102      EJECU-DE-PRESU-DE-INSTI  999   39 38961
+## 103     LICIT-ADJUD-DE-LAS-INSTI  999    7  6993
+## 104              PLANI-DEL-MINIS  999    8  7992
+</code></pre>
+
 <h2>Clean up currency data</h2>
-<p>In the example data above, and possibly in more Junar implementations, we need to clean up any data related to currency values. In our case we need to found all currency symbols (Costa Rica Colon) and all the comma’s separating thousands. As they stand these values are text strings, and cannot be converted directly to numeric without removing the symbols and commas.</p>
-<p>There are two utilities to help cleaning the currency data: <code>clean_currency</code> and <code>get_currency_symbol</code>. For example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">currency_data &lt;-<span class="st"> </span><span class="kw">get_data</span>(base_url, api_key, <span class="st">&quot;LICIT-ADJUD-POR-LOS-MINIS&quot;</span>)
-currency_data$<span class="st">`</span><span class="dt">Monto Adjudicado</span><span class="st">`</span> &lt;-<span class="st"> </span><span class="kw">clean_currency</span>(currency_data$<span class="st">`</span><span class="dt">Monto Adjudicado</span><span class="st">`</span>)  </code></pre></div>
-</div>
 
+<p>In the example data above, and possibly in more Junar implementations, we need
+to clean up any data related to currency values. In our case we need to found
+all currency symbols (Costa Rica Colon) and all the comma&#39;s separating
+thousands. As they stand these values are text strings, and cannot be converted
+directly to numeric without removing the symbols and commas.</p>
 
+<p>There are two utilities to help cleaning the currency data: <code>clean_currency</code>
+and <code>get_currency_symbol</code>.  For example:</p>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
+<pre><code class="r">currency_data &lt;- get_data(base_url, api_key, &quot;LICIT-ADJUD-POR-LOS-MINIS&quot;)
+currency_data$`Monto Adjudicado` &lt;- clean_currency(currency_data$`Monto Adjudicado`)  
+</code></pre>
 
 </body>
+
 </html>

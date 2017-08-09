@@ -26,4 +26,3 @@ default limit of 1000 rows of the Junar API.
 Note that this removes all meta-data from the JSON response given by the API.
 }
 \keyword{GUID}
-

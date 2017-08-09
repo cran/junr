@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{clean_currency}
 \alias{clean_currency}
-\title{Clean currency values}
+\title{Clean Currency Values}
 \usage{
 clean_currency(currency_column, currency_symbol_pos = 1,
   thousand_separator = ",", decimal_separator = ".")
@@ -37,4 +37,3 @@ Colon) give are uncommon and lead to multiple encoding and font errors.
 \keyword{Currency,}
 \keyword{Data}
 \keyword{Scrubbing}
-

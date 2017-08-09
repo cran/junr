@@ -1,4 +1,4 @@
-#' Clean currency values
+#' Clean Currency Values
 #'
 #' Often Junar data involving currency data is not clean because for some
 #' reason content and presentation of currency values is not separated). To
