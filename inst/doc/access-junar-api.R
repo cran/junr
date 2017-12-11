@@ -20,8 +20,8 @@ purchasing_data <- get_data(base_url, api_key, data_guid)
 pres_list <-list_guid(base_url, api_key)
 pres_list[3]
 
-## ------------------------------------------------------------------------
-get_dimensions(base_url, api_key)
+## ----eval=FALSE----------------------------------------------------------
+#  get_dimensions(base_url, api_key)
 
 ## ------------------------------------------------------------------------
 currency_data <- get_data(base_url, api_key, "LICIT-ADJUD-POR-LOS-MINIS")

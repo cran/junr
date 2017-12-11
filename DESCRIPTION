@@ -8,7 +8,7 @@ Description:
     government Open Data initiatives in Latin America and the USA. This package
     is a wrapper to make it easier to access data made public through the 'Junar'
     API.
-Version: 0.1.2
+Version: 0.1.3
 Date: 2017-08-08
 Authors@R: c(person("Frans", "van Dunné", ,
                     "frans@ixpantia.com",
@@ -24,8 +24,8 @@ License: MIT + file LICENCE
 URL: https://github.com/fvd/junr
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2017-08-09 00:13:40 UTC; frans
+Packaged: 2017-12-11 22:29:39 UTC; frans
 Author: Frans van Dunné [aut, cre]
 Maintainer: Frans van Dunné <frans@ixpantia.com>
 Repository: CRAN
-Date/Publication: 2017-08-09 04:04:43 UTC
+Date/Publication: 2017-12-11 22:55:22 UTC

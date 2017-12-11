@@ -12,7 +12,7 @@ vignette: >
 ## Introducción
 
 El API de Junar es la base para varias iniciativas de Datos Abiertos en Latino
-América y los EEUU.  El paquete `junr` facilita el acceso a estos datos desde R.
+América y los EEUU. El paquete `junr` facilita el acceso a estos datos desde R.
 El objetivo es fomentar el uso de los datos disponibles haciendo el acceso lo
 mas fácil. Algunos ejemplos de implementaciones se pueden encontrar en el
 [sitio web de Junar](http://www.junar.com/).
@@ -93,9 +93,11 @@ mas que tablas (datos ya trabajados y resumidos). Por eso es útil poder ver de
 una vez cuantos filas hay detrás de cada GUID en el URL disponible. 
 
 En `junr` lo puedes hacer rápidamente usando la función `get_dimensions` para
-obtener una tabla con todos los GUID y las dimensiones de los datos:
+obtener una tabla con todos los GUID y las dimensiones de los datos. No lo
+corremos aqui porque cuando hay muchas tablas diferentes disponibles esta
+función se puede demorar bastante en finalizar.
 
-```{r}
+```{r eval=FALSE}
 get_dimensions(url_base, api_key)
 ```
 
